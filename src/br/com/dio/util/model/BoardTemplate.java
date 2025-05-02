@@ -1,8 +1,8 @@
-package br.com.dio.util;
+package br.com.dio.util.model;
 
 public class BoardTemplate {
 
-  public final static String BOARD_TEMPLATE = """
+  public final String BOARD_TEMPLATE = """
       *|**********************************************************************************************************************
       *|-----0-----||-----1-----||-----2-----|*|-----3-----||-----4-----||-----5-----|*|-----6-----||-----7-----||-----8-----|
       *|           ||           ||           |*|           ||           ||           |*|           ||           ||           |

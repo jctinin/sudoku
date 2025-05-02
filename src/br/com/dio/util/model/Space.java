@@ -9,10 +9,7 @@ public class Space {
   public Space(int expected, final boolean fixed) {
     this.expected = expected;
     this.fixed = fixed;
-
-    if (fixed) {
-      this.actual = expected;
-    }
+    this.actual = fixed ? expected : null;
   }
 
   public Integer getActual() {
@@ -34,7 +31,6 @@ public class Space {
       return;
     this.actual = null;
   }
-
 
   public boolean isFixed() {
     return fixed;
