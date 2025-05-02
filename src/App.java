@@ -41,7 +41,6 @@ public class App {
             System.out.println("5. Varificar Status do jogo");
             System.out.println("6. Limpar jogo");
             System.out.println("7. Finalizar o jogo");
-            System.out.println("8. Sair do jogo");
 
             option = scanner.nextInt();
 
@@ -72,7 +71,6 @@ public class App {
 
         for (int i = 0; i < BOARD_LIMIT; i++) {
             List<Space> row = new ArrayList<>();
-
             for (int j = 0; j < BOARD_LIMIT; j++) {
                 String key = i + "," + j;
                 String positionConfig = positions.get(key);
@@ -82,10 +80,14 @@ public class App {
                     try {
                         int expected = Integer.parseInt(parts[0].trim());
                         boolean fixed = Boolean.parseBoolean(parts[1].trim());
-                        System.out.println("Célula [" + i + "," + j + "] = " + expected + ", fixed: " + fixed);
-                        row.add(new Space(expected, fixed));
+
+                        Space space = new Space(expected, fixed);
+                        if (fixed) {
+                            space.setActual(expected);
+                        }
+
+                        row.add(space);
                     } catch (Exception e) {
-                        System.err.println("Erro ao processar posição " + key + ": " + positionConfig);
                         row.add(new Space(0, false));
                     }
                 } else {
@@ -94,8 +96,6 @@ public class App {
             }
             spaces.add(row);
         }
-
-        board = new Board(spaces);
 
         board = new Board(spaces);
 
@@ -150,17 +150,14 @@ public class App {
         for (int i = 0; i < BOARD_LIMIT; i++) {
             for (int j = 0; j < BOARD_LIMIT; j++) {
                 Space space = board.getSpace(i, j);
-                if (space.isFixed()) {
-                    args[argPos++] = space.getExpected() != 0 ? (Object) space.getExpected() : " ";
-                } else {
-                    args[argPos++] = space.getActual() != null ? space.getActual() : " ";
-                }
+                args[argPos++] = space.isFixed() ? String.format("%2d", space.getExpected())
+                        : (space.getActual() != null ? String.format("%2d", space.getActual()) : "  ");
             }
         }
 
         System.out.println("Seu jogo atual é:");
         BoardTemplate boardTemplate = new BoardTemplate();
-        System.out.printf(boardTemplate.BOARD_TEMPLATE, args);
+        System.out.printf(boardTemplate.BOARD_TEMPLATE.replaceAll("%s", "%2s"), args);
     }
 
     private static void clearGame() {
@@ -225,6 +222,5 @@ public class App {
             }
         }
     }
-
 
 }

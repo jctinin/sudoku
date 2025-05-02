@@ -49,12 +49,11 @@ public class Board {
     return true;
   }
 
-  public boolean  clearValue(final int col, final int row) {
-    var space = spaces.get(row).get(col);
-    if (space.isFixed()) {
+  public boolean clearValue(final int row, final int column) {
+    var space = spaces.get(row).get(column);
+    if (space.isFixed() || space.getActual() == null) {
       return false;
     }
-
     space.clearSpace();
     return true;
   }
